@@ -59,7 +59,7 @@
             center = new qq.maps.LatLng(39.125773, 117.190444);
             map = new qq.maps.Map(document.getElementById("mapContent"), {
                 // 地图的中心地理坐标。
-                zoom: 11,
+                zoom: 13,
                 center: center
             });
             infoWin = new qq.maps.InfoWindow({

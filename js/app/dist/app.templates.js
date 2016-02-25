@@ -36,9 +36,7 @@ angular.module('dipan').run(['$templateCache', function($templateCache) {
     "        <span click-router-ui-block=\"alertDiv.alertInfo\" item=\"4\" lineId=\"{{vo.id}}\">[价格:{{vo.price}}]</span>\n" +
     "        <span click-router-group=\"8\" lineId=\"{{vo.id}}\">[排序]</span>\n" +
     "        <span click-router-group=\"9\" lineId=\"{{vo.id}}\">[删除]</span>\n" +
-    "        <span class=\"right\" click-router-group=\"1\" lineid=\"{{vo.id}}\" style=\"position: absolute;\n" +
-    "    left: 26%;\n" +
-    "    width: 30px;\n" +
+    "        <span class=\"right\" click-router-group=\"1\" lineid=\"{{vo.id}}\" style=\"width: 30px;\n" +
     "    \"><img style=\"width: 100%\" ng-src=\"{{vo.radio}}\"/></span>\n" +
     "    </h5>\n" +
     "\n" +
