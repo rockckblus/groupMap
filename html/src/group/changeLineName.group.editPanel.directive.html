@@ -1,0 +1,9 @@
+<form>
+    <fieldset>
+        <legend>修改线路名称</legend>
+        <label>当前名称:{{name}}</label>
+        <span class="clear"></span>
+        <input type="text" ng-model="name" placeholder="请输入新名称">
+        <button type="submit" style="margin-top: 10px" class="btn btn-success closeButton"  click-router-group="2" lineName="{{name}}" lineId="{{lineId}}">修改</button>
+    </fieldset>
+</form>

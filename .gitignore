@@ -1,0 +1,12 @@
+/node_modules
+/.idea
+/.svn
+/*/.svn
+/*/*/.svn
+/*/*/*/.svn
+/*/*/*/*/.svn
+/*/*/*/*/*/.svn
+/*/*/*/*/*/*/.svn
+/*/dist
+/js/hellosea
+/js/lib

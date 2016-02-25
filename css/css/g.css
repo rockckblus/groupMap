@@ -1,0 +1,41 @@
+html,
+body {
+  height: 100%;
+  font-family: PingHei, 'PingFang SC', 'Helvetica Neue', Helvetica, STHeitiSC-Light, Arial, sans-serif;
+}
+.c {
+  margin: 0 auto;
+}
+.cText {
+  text-align: center;
+}
+.left {
+  float: left;
+}
+.right {
+  float: right;
+}
+.clear {
+  zoom: 1;
+}
+.clear:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+.clear:before {
+  content: "";
+  display: table;
+}
+.hide {
+  display: none;
+}
+.angularEnd {
+  display: none;
+}
+.linkMouse {
+  cursor: pointer;
+}
+.line {
+  border-bottom: solid 1px #eeeeee;
+}

@@ -1,0 +1,376 @@
+@import "g";
+
+//主背景灰
+@colorBack: #ffffff;
+
+//次背景灰亮
+@colorBackTwo: #f6f8f8;
+//左侧导航背景
+@leftNavBack: #f4f4f4;
+//左侧导航字体颜色深
+@leftNavBackFont: #151515;
+//左侧导航字体颜色亮
+@leftNavBackFontHeight: #564aa3;
+//line 浅色
+@lineColor: #eee;
+
+//bColor
+@bColor: #3399CC;
+
+//thisColor
+@thisColor: #0D4D6D;
+
+//block
+.block {
+  margin-right: 0;
+  margin-left: 0;
+  background-color: #fff;
+  border-color: #ddd;
+  border-width: 1px;
+  border-radius: 4px 4px 0 0;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  padding: 10px;
+}
+
+//block
+.block2 {
+  .block;
+  border-radius: 4px 4px 4px 4px;
+}
+
+.allDiv {
+  //主div
+
+  .all();
+  .allHeight();
+  .clear();
+  background-color: @colorBack;
+  .topHeader {
+    .search {
+      .mt(10);
+      input {
+        width: 400px;
+      }
+    }
+    .all();
+    .clear();
+    height: 50px;
+    background-color: @colorBack;
+    .line;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    left: 0;
+
+    #leftLogo {
+      .all(10, 3);
+      .mt(15);
+      .ml(15);
+      font-size: 12px;
+      color: @thisColor;
+      font-weight: bold;
+      &:hover {
+        color: @leftNavBackFont + 111;
+      }
+      .linkMouse;
+      .topDiZhu {
+        .all();
+        .name {
+          .mt(15);
+          .left;
+          .all(10, 2);
+        }
+        #getDiPan {
+          .left;
+          .all(10, 5);
+          .linkMouse;
+          .mt(15);
+          .pulse();
+          .animation(pulse 10s linear infinite);
+          span {
+            color: blue;
+            font-size: 14px;
+          }
+        }
+
+      }
+    }
+    #rightHeader {
+      .search {
+        input {
+          width: 100px;
+          .mt();
+          .ml(20);
+          .left;
+          border: solid 1px @leftNavBack;
+        }
+        button {
+          .ml();
+          .mt();
+          .left;
+        }
+      }
+
+      .listRight {
+        position: fixed;
+        z-index: 30;
+        right: 0px;
+        .mt(13);
+        margin-right: 2rem;
+        width: 100px;
+        .listItem {
+          width: 100px;
+          .clear();
+          background-color: @colorBack;
+          li {
+            padding: 10px;
+            list-style-type: none;
+            &:hover {
+              background-color: @leftNavBack;
+              color: @leftNavBackFont;
+            }
+          }
+          border: solid 1px @leftNavBack;
+        }
+      }
+    }
+
+  }
+
+  //  主体div
+  .contentDiv {
+    .all();
+    .clear();
+    .allHeight();
+    position: fixed;
+    z-index: 0;
+    margin-top: 50px;
+    #block1 {
+      .clear;
+      .allHeight(10, 8.5);
+      overflow-y: scroll;
+      .all(10, 3);
+      text-align: left;
+      border-right: 1px solid @lineColor;
+
+      .leftTop1 {
+        .clear;
+      }
+      .leftBut {
+        padding: 10px;
+        .mt(10);
+      }
+
+    }
+    #block2 {
+      .allHeight();
+      .all(10, 7);
+      border-right: 1px solid @lineColor;
+      .line;
+      margin-bottom: -3rem;
+      ul {
+        .ml(20)
+      }
+      .topGoodsList {
+        .allHeight(10, 3);
+        overflow-y: scroll;
+        .clear;
+        font-size: 12px;
+        .line;
+        li {
+          .linkMouse;
+          list-style: none;
+          .left;
+          padding: 1px;
+          margin: 2px;
+          border: solid 1px #000;
+          &:hover {
+            background-color: @bColor;
+            color: #fff;
+          }
+        }
+      }
+      #mapOut {
+        .clear;
+        .all();
+        .allHeight();
+        #mapContent {
+          height: 0px;
+          width: 0px
+        }
+
+      }
+    }
+  }
+
+  .editTitle {
+    .left;
+    font-size: 14px;
+    width: 70px;
+    .mt(3);
+  }
+  .editDiv {
+    .ml(20);
+    .mt(20);
+    margin-bottom: 60px;
+  }
+
+  .h6Left {
+    color: #296119;
+    padding-left: 15px;
+  }
+
+  .h6LeftThis {
+    border-left: solid 10px @leftNavBackFont;
+    padding-left: 5px;
+    color: @leftNavBackFont;
+  }
+}
+
+//directive
+#alertInfo {
+  .backPositon {
+    width: 100%;
+    height: 100%;
+    background-image: url('../../images/mapShade.png');
+    position: fixed;
+    z-index: 5000;
+  }
+  .blockContent {
+    position: fixed;
+    z-index: 6000;
+    left: 50%;
+    margin-top: 100px;
+    .bounceIn();
+    .animation(bounceIn 0.5s linear);
+    min-height: 100px;
+    min-width: 200px;
+  }
+  .closeButton {
+    .right;
+    .linkMouse;
+    margin-top: -5px;
+    &:hover {
+      color: red;
+    }
+  }
+}
+
+//directive
+#alertWarn {
+  .blockContent {
+    position: fixed;
+    z-index: 6000;
+    left: 10%;
+    margin-top: 40px;
+    .bounceIn();
+    .animation(bounceIn 0.5s linear);
+    min-height: 30px;
+    width: 80%;
+    background-color: red;
+    .cText;
+    color: #fff;
+  }
+  .closeButton {
+    color: #fff;
+    .right;
+    .linkMouse;
+    margin-top: -5px;
+    &:hover {
+      color: #f4f4f4;
+    }
+  }
+}
+
+//directive
+#leftTop1 {
+  .linkMouse;
+  h5 {
+    color: #fff;
+    .all(10, 9);
+    font-size: 24px;
+    .mt(0);
+    margin-bottom: 10px;
+  }
+  .thisLine {
+    .bounce();
+    .animation(bounce 3s linear infinite);
+    background-color: #0000ff;
+  }
+  .groupBlock {
+    .line {
+      span {
+        font-size: 12px;
+        font-weight: normal;
+        &:hover {
+          font-weight: bold;
+          color: #ffff00;
+        }
+      }
+    }
+    .mt(10);
+    .bColor;
+    border: solid 1px #0086B3;
+    .all();
+    .itemBlock {
+      .all();
+      min-height: 30px;
+      font-size: 12px;
+      li {
+        div {
+          .left;
+        }
+        list-style: none;
+        .left;
+        background-color: #f4f4f4;
+        margin: 3px;
+        padding: 2px;
+        .closeBut {
+          color: red;
+          margin-top: -3px;
+          margin-left: 2px;
+          .linkMouse;
+          &:hover {
+            font-size: 14px;
+            margin-top: -3px;
+          }
+        }
+      }
+    }
+  }
+  .bColor {
+    background-color: @bColor;
+  }
+  .thisColor {
+    background-color: @thisColor;
+    .name {
+      color: #ffff00;
+    }
+  }
+}
+
+//sort
+.container {
+  width: 30%;
+  height: 100%;
+  top:0px;
+  position: fixed;
+  z-index: 5000;
+  background: @thisColor;
+  padding: 10px;
+
+
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    cursor:move;
+    list-style: none;
+    padding: 3px;
+    background-color: #f4f4f4;
+    margin-left: 0px;
+    margin-top: 3px;
+  }
+}

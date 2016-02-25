@@ -1,0 +1,21 @@
+<div class="groupBlock block {{vo.thisItem}}" ng-repeat="vo in lineList track by $index">
+    <h5 class="line">
+        <!--线路名称-->
+        <span class="name" style="font-size: 20px" lineid="{{vo.id}}" click-router-group="1">{{vo.name}}</span>
+        <span click-router-ui-block="alertDiv.alertInfo" item="3" lineId="{{vo.id}}">[名称]</span>
+        <span click-router-ui-block="alertDiv.alertInfo" item="4" lineId="{{vo.id}}">[价格:{{vo.price}}]</span>
+        <span click-router-group="8" lineId="{{vo.id}}">[排序]</span>
+        <span click-router-group="9" lineId="{{vo.id}}">[删除]</span>
+        <span class="right" click-router-group="1" lineid="{{vo.id}}" style="position: absolute;
+    left: 26%;
+    width: 30px;
+    "><img style="width: 100%" ng-src="{{vo.radio}}"/></span>
+    </h5>
+
+    <div class="itemBlock">
+        <li ng-repeat="vo2 in vo.goods track by $index ">
+            <div>{{vo2.sh_address}}</div>
+            <div class="closeBut" goodid="{{vo2.id}}" lineid="{{vo.id}}" click-router-group="6">×</div>
+        </li>
+    </div>
+</div>

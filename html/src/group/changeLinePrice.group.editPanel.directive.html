@@ -1,0 +1,9 @@
+<form>
+    <fieldset>
+        <legend>修改线路价格</legend>
+        <label>当前价格:{{price}}</label>
+        <span class="clear"></span>
+        <input type="number" ng-model="price" placeholder="请输入新价格">
+        <button type="submit" style="margin-top: 10px" class="btn btn-success closeButton"  click-router-group="3" linePrice="{{price}}" lineId="{{lineId}}">修改</button>
+    </fieldset>
+</form>

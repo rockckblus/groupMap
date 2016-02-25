@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <title ng-controller="header">物流邦组配地图</title>
+    <link rel="stylesheet" href="css/dist/app.css"/>
+</head>
+<body class="angularEnd">
+<div class="allDiv">
+    <div class="topHeader">
+        <div id="leftLogo">
+            <div style="font-size: 20px">物流帮组配系统
+                <span style="font-size: 12px" click-router-ui-block="alertDiv.alertInfo" item="5">[操作说明]</span>
+            </div>
+        </div>
+        <div class="search left">
+            <input placeholder="搜索" search ng-model="search"/>
+            <!--<button >搜索</button>-->
+        </div>
+
+        <div class="contentDiv" id="contentDiv">
+            <div id="block1">
+                <div class="leftTop1">
+                    <div id="leftTop1" left-top1></div>
+                </div>
+                <div class="leftBut">
+                    <button class="btn btn-large btn-success" type="button" click-router-group="5">新加线路</button>
+                    <button class="btn btn-large btn-primary" type="button" click-router-group="7">保存</button>
+                </div>
+            </div>
+            <div id="block2">
+                <!--全部goods 列表 -->
+                <div class="topGoodsList">
+                    <div top-goods-list></div>
+                </div>
+
+                <!--地图-->
+                <div id="mapOut">
+                    <div id="mapContent" map></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="otherDiv">
+        <div alert-info></div>
+        <div alert-warn="2"></div>
+        <div sort></div>
+    </div>
+
+</div>
+<script>
+    var dist = true;
+    if (dist) {
+        document.write('<script src="js/app/dist/app.js"><\/script>');
+    }
+    else {
+        document.write('<script src="js/app/dist/appDev.js"><\/script>');
+    }
+</script>
+<script charset="utf-8" src="http://map.qq.com/api/js?v=2.exp"></script>
+
+</body>
+</html>
