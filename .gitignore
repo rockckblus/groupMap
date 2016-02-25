@@ -10,3 +10,7 @@
 /*/dist
 /js/hellosea
 /js/lib
+
+js/app/dist/app.js
+
+js/app/src/server/group.group.config.factory.js
