@@ -3,7 +3,7 @@
         <h5 class="line">
             <!--线路名称-->
             <span class="name" style="font-size: 20px;color: #fff">{{name}}</span>
-            <span class="right linkMouse" style="font-size: 40px;color: #fff;margin-top: -20px" ng-click="show = false">×</span>
+            <button class="right btn btn-large btn-success ng-isolate-scope" type="button" ng-click="show = false" style="margin-top: -20px">保存</button>
         </h5>
 
         <div>
@@ -11,7 +11,8 @@
                 <li ng-repeat="todo in todos track by $index">
                     <span class="left"><img src="images/move.png"/></span> <span class="left">{{todo.sh_address}}</span>
                     <span class="right" style="font-size: 20px;margin-top: -5px;color: red;font-weight: bold">{{$index + 1}}</span>
-                    <span class="left linkMouse" goodid="{{todo.id}}" lineid="{{thisLineId}}" style="color: red" click-router-group="6">&nbsp;[删除]</span>
+                    <span class="left linkMouse" goodid="{{todo.id}}" lineid="{{thisLineId}}" style="color: red"
+                          click-router-group="6">&nbsp;[删除]</span>
                     <span class="clear"></span>
                 </li>
             </ul>

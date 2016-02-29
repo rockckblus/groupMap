@@ -56,7 +56,7 @@ angular.module('dipan').run(['$templateCache', function($templateCache) {
     "        <h5 class=\"line\">\n" +
     "            <!--线路名称-->\n" +
     "            <span class=\"name\" style=\"font-size: 20px;color: #fff\">{{name}}</span>\n" +
-    "            <span class=\"right linkMouse\" style=\"font-size: 40px;color: #fff;margin-top: -20px\" ng-click=\"show = false\">×</span>\n" +
+    "            <button class=\"right btn btn-large btn-success ng-isolate-scope\" type=\"button\" ng-click=\"show = false\" style=\"margin-top: -20px\">保存</button>\n" +
     "        </h5>\n" +
     "\n" +
     "        <div>\n" +
@@ -64,7 +64,8 @@ angular.module('dipan').run(['$templateCache', function($templateCache) {
     "                <li ng-repeat=\"todo in todos track by $index\">\n" +
     "                    <span class=\"left\"><img src=\"images/move.png\"/></span> <span class=\"left\">{{todo.sh_address}}</span>\n" +
     "                    <span class=\"right\" style=\"font-size: 20px;margin-top: -5px;color: red;font-weight: bold\">{{$index + 1}}</span>\n" +
-    "                    <span class=\"left linkMouse\" goodid=\"{{todo.id}}\" lineid=\"{{thisLineId}}\" style=\"color: red\" click-router-group=\"6\">&nbsp;[删除]</span>\n" +
+    "                    <span class=\"left linkMouse\" goodid=\"{{todo.id}}\" lineid=\"{{thisLineId}}\" style=\"color: red\"\n" +
+    "                          click-router-group=\"6\">&nbsp;[删除]</span>\n" +
     "                    <span class=\"clear\"></span>\n" +
     "                </li>\n" +
     "            </ul>\n" +
