@@ -275,14 +275,14 @@
                  * 有重叠方法
                  * 16/2/29 */
                 function _moreGoods() {
-                    console.log('moreGoods');
-//                    var contentEnd = content.sh_address + '&nbsp;&nbsp;';
-//                    infoWin.open();
-//                    infoWin.setPosition(marker.getPosition());
-//                    infoWin.setContent(contentEnd);
-//                    setTimeout(function () {
-//                        infoWin.close();
-//                    }, 1000);
+//                    console.log('moreGoods');
+                    var contentEnd = content.sh_address + '&nbsp;&nbsp;';
+                    infoWin.open();
+                    infoWin.setPosition(marker.getPosition());
+                    infoWin.setContent(contentEnd);
+                    setTimeout(function () {
+                        infoWin.close();
+                    }, 1000);
                 }
             });
             setTimeout(function () {
@@ -401,7 +401,6 @@
                     }
                     if (count > 1) {
                         oneGoods = false;// 有多个重叠
-                        alert(11);
                     }
                     moreGoods.push(goodsMarkArr[vo]);//push 到重叠数组
                 }
@@ -422,7 +421,8 @@
                 center: center,
                 radius: 260,
                 fillColor: "#0f0",
-                strokeWeight: 2
+                strokeWeight: 2,
+                visible: false
             });
         }
 
