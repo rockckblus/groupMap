@@ -122,6 +122,8 @@
          * 建立marker,传入图标地址，空是默认图标
          * 16/2/19 */
         function createMark(center, icon, content) {
+            icon += '#' + content.id;
+            var iconChai = icon.split('#');
             var iconObj = new qq.maps.MarkerImage(icon);
             if (map) {
                 var marker = new qq.maps.Marker({
@@ -131,12 +133,12 @@
                 });
                 if (content) {
                     marker.setMap(map);
-                    if (icon == 'images/blueStar.png') {
+                    if (iconChai[0] == 'images/blueStar.png') {
                         content.type = 'goods';
                         bindGoodsMarkHover(content, marker);//绑定点击事件
                         goodsMarkArr.push(marker);
                     }
-                    if (icon == 'images/redStar.png') {
+                    if (iconChai[0] == 'images/redStar.png') {
                         content.type = 'line';
                         bindGoodsMarkHover(content, marker);//绑定点击事件
                         lineGoodsArr.push(marker);
@@ -275,20 +277,36 @@
                  * 有重叠方法
                  * 16/2/29 */
                 function _moreGoods() {
-                    console.log('moreGoods');
-//                    var contentEnd = content.sh_address + '&nbsp;&nbsp;';
-//                    infoWin.open();
-//                    infoWin.setPosition(marker.getPosition());
-//                    infoWin.setContent(contentEnd);
-//                    setTimeout(function () {
-//                        infoWin.close();
-//                    }, 1000);
+                    /**
+                     * 组合出 moreTempGoods 数组 。来遍历
+                     * 16/3/1 */
+
+                    var contentEnd = '';
+                    for (var vo in moreTempGoods) {
+
+                        contentEnd += moreGoods[vo].sh_address + '&nbsp;&nbsp;';
+                    }
+                    infoWin.open();
+                    infoWin.setPosition(marker.getPosition());
+                    infoWin.setContent(contentEnd);
+                    setTimeout(function () {
+                        infoWin.close();
+                    }, 1000);
+
                 }
             });
             setTimeout(function () {
                 bindGoodsMarkClick(marker, content.id, content.type);//bind mark click事件
             }, 0);
         }
+
+        /**
+         * 根据 meoreGoods  重叠mark数组 组合出 重叠goods(未选中的) 数组
+         * 16/3/1 */
+        function _giveMoreTempGoods() {
+          
+        }
+
 
         /**
          * goodsMark点击事件绑定
@@ -401,7 +419,6 @@
                     }
                     if (count > 1) {
                         oneGoods = false;// 有多个重叠
-                        alert(11);
                     }
                     moreGoods.push(goodsMarkArr[vo]);//push 到重叠数组
                 }
