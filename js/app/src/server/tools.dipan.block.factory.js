@@ -90,13 +90,11 @@
          * 删除数组中的元素,传入数组，和第一个
          * 16/2/18 */
         function arrDel(arr, num) {
-            if (!Array.prototype.remove) {
-                Array.prototype.remove = function (from, to) {
-                    var rest = this.slice((to || from) + 1 || this.length);
-                    this.length = from < 0 ? this.length + from : from;
-                    return this.push.apply(this, rest);
-                };
-            }
+            Array.prototype.remove = function (from, to) {
+                var rest = this.slice((to || from) + 1 || this.length);
+                this.length = from < 0 ? this.length + from : from;
+                return this.push.apply(this, rest);
+            };
             arr.remove(num);
             delete Array.prototype.remove;
         }
