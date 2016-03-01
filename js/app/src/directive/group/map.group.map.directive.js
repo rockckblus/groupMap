@@ -28,7 +28,7 @@
         var map, center, goodsMarkArr = [], lineGoodsArr = [], path = [], thisLinePathObj, lableArr = [];//map ,默认中心点， 未分配goodsArr ，当前线路 goodsArr,当前线路路径划线数组,文本标记sortIndex数组
         var infoWin;
         var circle;//判断范围用的
-        var moreGoods = [], oneGoods = true;//判断出来的 重叠数组,默认 一个goods的情况
+        var moreGoods = [], oneGoods = true, moreTempGoods = [];//判断出来的 重叠数组,默认 一个goods的情况 , 重叠goods数组
         giveMapWidthHeight(init);
 
         listenRoot();//监听父域发送的监听事件
@@ -122,6 +122,8 @@
          * 建立marker,传入图标地址，空是默认图标
          * 16/2/19 */
         function createMark(center, icon, content) {
+            icon += '#' + content.id;
+            var iconChai = icon.split('#');
             var iconObj = new qq.maps.MarkerImage(icon);
             if (map) {
                 var marker = new qq.maps.Marker({
@@ -131,12 +133,12 @@
                 });
                 if (content) {
                     marker.setMap(map);
-                    if (icon == 'images/blueStar.png') {
+                    if (iconChai[0] == 'images/blueStar.png') {
                         content.type = 'goods';
                         bindGoodsMarkHover(content, marker);//绑定点击事件
                         goodsMarkArr.push(marker);
                     }
-                    if (icon == 'images/redStar.png') {
+                    if (iconChai[0] == 'images/redStar.png') {
                         content.type = 'line';
                         bindGoodsMarkHover(content, marker);//绑定点击事件
                         lineGoodsArr.push(marker);
@@ -248,7 +250,7 @@
                 /**
                  * 判断 此区域内 有没有其他 goods ,再回调 _isInArea
                  * 16/2/29 */
-                _isInArea(marker.getPosition(), _callBack);
+                _isInArea(marker.getPosition(), content.type, _callBack);
 
                 function _callBack() {
                     if (oneGoods) {//无重叠
@@ -275,20 +277,60 @@
                  * 有重叠方法
                  * 16/2/29 */
                 function _moreGoods() {
-//                    console.log('moreGoods');
-                    var contentEnd = content.sh_address + '&nbsp;&nbsp;';
+                    /**
+                     * 组合出 moreTempGoods 数组 。来遍历
+                     * 16/3/1 */
+                    _giveMoreTempGoods(content.type);
+
+                    console.log('moreTempGoods', moreTempGoods);
+                    var contentEnd = '';
+                    for (var vo in moreTempGoods) {
+                        contentEnd += moreTempGoods[vo].sh_address + '&nbsp;&nbsp;\<br\/\>\<hr\/\>';
+                    }
                     infoWin.open();
                     infoWin.setPosition(marker.getPosition());
                     infoWin.setContent(contentEnd);
                     setTimeout(function () {
                         infoWin.close();
-                    }, 1000);
+                    }, 2000);
+
                 }
             });
             setTimeout(function () {
                 bindGoodsMarkClick(marker, content.id, content.type);//bind mark click事件
             }, 0);
         }
+
+        /**
+         * 根据type 是 goods 还是 line 给不同的 重叠数组
+         * 根据 meoreGoods  重叠mark数组 组合出 重叠goods(未选中的) 数组
+         *
+         * 16/3/1 */
+        function _giveMoreTempGoods(type) {
+            moreTempGoods = [];
+            var allGoods;
+            if (type == 'goods') {
+                allGoods = group.allGoodsData.list;
+                for (var vo in moreGoods) {
+                    var goodId = _getGoodId(moreGoods[vo].getIcon().url);
+                    for (var vo2 in allGoods) {
+                        if (goodId == allGoods[vo2].id) {
+                            moreTempGoods.push(allGoods[vo2]);
+                        }
+                    }
+                }
+            }
+
+            if (type == 'line') {
+                allGoods = group.getLineGoods();
+            }
+
+            function _getGoodId(url) {
+                var goodsId = url.split('#');
+                return goodsId[1];
+            }
+        }
+
 
         /**
          * goodsMark点击事件绑定
@@ -298,7 +340,13 @@
 
                 if (id) {
                     if (type == 'goods') {
-                        group.addGoodsToLine(id);
+                        if (oneGoods) {
+                            group.addGoodsToLine(id);
+                        } else {
+                            for (var vo in moreTempGoods) {
+                                group.addGoodsToLine(moreTempGoods[vo].id);
+                            }
+                        }
                     }
                     if (type == 'line') {
                         group.delGoodsFromLine(group.thisItemId, id);
@@ -370,7 +418,7 @@
         /**
          * 判断一个点是否在多变型区域内
          * 16/2/29 */
-        function _isInArea(gpsObj, callBack) {
+        function _isInArea(gpsObj, type, callBack) {
             /**
              * 变换区域到坐标的位置
              * 返回 区域 范围
@@ -378,18 +426,27 @@
              * 16/2/29 */
             circle.setCenter(gpsObj);
             var circleGpsArea = circle.getBounds();
-            _eachGoodsInArea(circleGpsArea, callBack);
+            _eachGoodsInArea(circleGpsArea, type, callBack);
         }
 
         /**
          * 遍历所有goods gps 在区域内 返回 数组
          * 16/2/29 */
-        function _eachGoodsInArea(area, callBack) {
+        function _eachGoodsInArea(area, type, callBack) {
             moreGoods = [];//清空重叠
             oneGoods = true;//给无重叠情况
             var count = 0;
-            for (var vo in goodsMarkArr) {
-                var g = goodsMarkArr[vo].getPosition();
+
+            var eachGoodsmarkArr = [];
+            if (type == 'goods') {
+                eachGoodsmarkArr = goodsMarkArr;
+            }
+            if (type == 'line') {
+                eachGoodsmarkArr = lineGoodsArr;
+            }
+
+            for (var vo in eachGoodsmarkArr) {
+                var g = eachGoodsmarkArr[vo].getPosition();
 //                console.log('1', g.lat, area.lat.maxY);
 //                console.log('2', g.lat, area.lat.minY);
 //                console.log('3', g.lng, area.lng.maxX);
@@ -402,9 +459,10 @@
                     if (count > 1) {
                         oneGoods = false;// 有多个重叠
                     }
-                    moreGoods.push(goodsMarkArr[vo]);//push 到重叠数组
+                    moreGoods.push(eachGoodsmarkArr[vo]);//push 到重叠数组
                 }
             }
+            console.log('moreGoods',moreGoods);
 
             setTimeout(function () {
                 callBack();
@@ -421,8 +479,7 @@
                 center: center,
                 radius: 260,
                 fillColor: "#0f0",
-                strokeWeight: 2,
-                visible: false
+                strokeWeight: 2
             });
         }
 
@@ -460,6 +517,7 @@
             }
             circle.setRadius(endNum);//设置圆形大小
         }
+
 
     }
 
