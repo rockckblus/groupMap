@@ -264,7 +264,12 @@
                  * 无重叠方法
                  * 16/2/29 */
                 function _oneGoods() {
-                    var contentEnd = content.sh_address + '&nbsp;&nbsp;';
+                    var contentEnd;
+                    if (content.type == 'line') {
+                        contentEnd = '<span style="color:red">' + content.sort + '&nbsp;:&nbsp;' + content.sh_address + '&nbsp;&nbsp;</span>';
+                    } else {
+                        contentEnd = content.sh_address + '&nbsp;&nbsp;';
+                    }
                     infoWin.open();
                     infoWin.setPosition(marker.getPosition());
                     infoWin.setContent(contentEnd);
@@ -281,17 +286,28 @@
                      * 组合出 moreTempGoods 数组 。来遍历
                      * 16/3/1 */
                     _giveMoreTempGoods(content.type);
-
-                    console.log('moreTempGoods', moreTempGoods);
                     var contentEnd = '';
                     for (var vo in moreTempGoods) {
-                        contentEnd += moreTempGoods[vo].sh_address + '&nbsp;&nbsp;\<br\/\>\<hr\/\>';
+                        if (content.type == 'line') {
+                            contentEnd += moreTempGoods[vo].sort + '&nbsp;:&nbsp;' + moreTempGoods[vo].sh_address + '&nbsp;&nbsp;\<br\/\>\<hr\/\>';
+                        } else {
+                            contentEnd += moreTempGoods[vo].sh_address + '&nbsp;&nbsp;\<br\/\>\<hr\/\>';
+                        }
                     }
                     infoWin.open();
                     infoWin.setPosition(marker.getPosition());
+
+
+                    if (content.type == 'line') {
+                        console.log('contentn', content);
+                        contentEnd = '<span style="color:red">' + contentEnd + '</span>';
+                    }
+
                     infoWin.setContent(contentEnd);
                     setTimeout(function () {
-                        infoWin.close();
+                        if (content.type == 'goods') {
+                            infoWin.close();
+                        }
                     }, 2000);
 
                 }
@@ -309,20 +325,20 @@
         function _giveMoreTempGoods(type) {
             moreTempGoods = [];
             var allGoods;
-            if (type == 'goods') {
-                allGoods = group.allGoodsData.list;
-                for (var vo in moreGoods) {
-                    var goodId = _getGoodId(moreGoods[vo].getIcon().url);
-                    for (var vo2 in allGoods) {
-                        if (goodId == allGoods[vo2].id) {
-                            moreTempGoods.push(allGoods[vo2]);
-                        }
-                    }
-                }
-            }
-
             if (type == 'line') {
                 allGoods = group.getLineGoods();
+            }
+            if (type == 'goods') {
+                allGoods = group.allGoodsData.list;
+            }
+
+            for (var vo in moreGoods) {
+                var goodId = _getGoodId(moreGoods[vo].getIcon().url);
+                for (var vo2 in allGoods) {
+                    if (goodId == allGoods[vo2].id) {
+                        moreTempGoods.push(allGoods[vo2]);
+                    }
+                }
             }
 
             function _getGoodId(url) {
@@ -343,16 +359,42 @@
                         if (oneGoods) {
                             group.addGoodsToLine(id);
                         } else {
+                            moreTempGoods = _uniqueObj(moreTempGoods);
+                            var count = 0;
                             for (var vo in moreTempGoods) {
-                                group.addGoodsToLine(moreTempGoods[vo].id);
+//                                count = count + 1000;
+                                _addGoodsToLine(moreTempGoods[vo].id, count);
                             }
                         }
                     }
                     if (type == 'line') {
-                        group.delGoodsFromLine(group.thisItemId, id);
+                        moreTempGoods = _uniqueObj(moreTempGoods);
+                        if (oneGoods) {
+                            group.delGoodsFromLine(group.thisItemId, id);
+                        } else {
+                            for (var vo2 in moreTempGoods) {
+                                var moreTempGoodsId = parseInt(moreTempGoods[vo2].id);
+                                _delGoodsFromLine(moreTempGoodsId);
+                            }
+                        }
                     }
+
+
                     infoWin.close();
                 }
+
+                function _addGoodsToLine(moreTempGoodsId, count) {
+                    setTimeout(function () {
+                        group.addGoodsToLine(moreTempGoodsId);
+                    }, count);
+
+                }
+
+                function _delGoodsFromLine(moreTempGoodsId) {
+                    group.delGoodsFromLine(group.thisItemId, moreTempGoodsId);
+                }
+
+
             });
         }
 
@@ -393,6 +435,7 @@
                         path.push(thisCenter);
                         createMark(thisCenter, 'images/redStar.png', goods[vo]);
                         createLable(thisCenter, parseInt(vo) + 1);
+                        goods[vo].sort = parseInt(vo) + 1;
                     }
                 }
             }, 0);
@@ -413,6 +456,26 @@
                 }
             }
             return result;
+        }
+
+        /**
+         * _uniqueObj 去除重复 的 数组里面是对象 的 情况
+         * 16/3/1 */
+        function _uniqueObj(arr) {
+            var tempChangeArr = [];//声明一个临时的 符合单一数组格式 的临时数组
+            console.log('arr', arr);
+            for (var vo in arr) {
+                var tempJson = JSON.stringify(arr[vo]);
+                tempChangeArr.push(tempJson);
+            }
+            var changArr = _unique(tempChangeArr);
+
+            var endReArr = [];
+            for (var vo2 in changArr) {
+                var tempObj = JSON.parse(changArr[vo2]);
+                endReArr.push(tempObj);
+            }
+            return endReArr;
         }
 
         /**
@@ -444,13 +507,11 @@
             if (type == 'line') {
                 eachGoodsmarkArr = lineGoodsArr;
             }
+            console.log('goodsmarkArr', goodsMarkArr);
+            console.log('lineGoodsArr', lineGoodsArr);
 
             for (var vo in eachGoodsmarkArr) {
                 var g = eachGoodsmarkArr[vo].getPosition();
-//                console.log('1', g.lat, area.lat.maxY);
-//                console.log('2', g.lat, area.lat.minY);
-//                console.log('3', g.lng, area.lng.maxX);
-//                console.log('4', g.lng, area.lng.minX);
                 if (((g.lat < area.lat.maxY) && (g.lat > area.lat.minY)) && (((g.lng < area.lng.maxX) && (g.lng > area.lng.minX)))) {
                     count++;
                     if (count == 1) {
@@ -458,11 +519,37 @@
                     }
                     if (count > 1) {
                         oneGoods = false;// 有多个重叠
+
+                        if (!_trueMoreGoodsIsSet(eachGoodsmarkArr[vo])) {
+                            moreGoods.push(eachGoodsmarkArr[vo]);//push 到重叠数组
+                        }
+
                     }
-                    moreGoods.push(eachGoodsmarkArr[vo]);//push 到重叠数组
                 }
             }
-            console.log('moreGoods',moreGoods);
+
+
+            function _trueMoreGoodsIsSet(mark) {
+                for (var vo2 in moreGoods) {
+                    var gid = _getGoodsIdUrl(moreGoods[vo2]);
+                    var markId = _getGoodsIdUrl(mark);
+                    if (gid == markId) {
+                        return true;
+                    }
+                }
+
+            }
+
+            function _getGoodsIdUrl(mark) {
+                return  _getGoodId(mark.getIcon().url);
+            }
+
+            function _getGoodId(url) {
+                var goodsId = url.split('#');
+                return goodsId[1];
+            }
+
+            console.log('moreGoods', moreGoods);
 
             setTimeout(function () {
                 callBack();
@@ -522,5 +609,6 @@
     }
 
 
-})();
+})
+();
 
