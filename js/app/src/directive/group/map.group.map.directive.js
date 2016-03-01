@@ -566,7 +566,8 @@
                 center: center,
                 radius: 260,
                 fillColor: "#0f0",
-                strokeWeight: 2
+                strokeWeight: 2,
+                visible: false
             });
         }
 
@@ -604,7 +605,6 @@
             }
             circle.setRadius(endNum);//设置圆形大小
         }
-
 
     }
 
