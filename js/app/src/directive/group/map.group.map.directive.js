@@ -211,6 +211,7 @@
          * 16/2/19 */
         function listenRoot() {
             $scope.$on('allGoodsData', function () {
+                infoWin.close();
                 _delGoodsMarkArr();//删除未分配goodsMark
                 _delLineGoodsMarkArr();//删除所有线路数组
                 getGoodsMark();//重绘 未分配mark
@@ -299,7 +300,6 @@
 
 
                     if (content.type == 'line') {
-                        console.log('contentn', content);
                         contentEnd = '<span style="color:red">' + contentEnd + '</span>';
                     }
 
@@ -463,7 +463,6 @@
          * 16/3/1 */
         function _uniqueObj(arr) {
             var tempChangeArr = [];//声明一个临时的 符合单一数组格式 的临时数组
-            console.log('arr', arr);
             for (var vo in arr) {
                 var tempJson = JSON.stringify(arr[vo]);
                 tempChangeArr.push(tempJson);
@@ -507,8 +506,6 @@
             if (type == 'line') {
                 eachGoodsmarkArr = lineGoodsArr;
             }
-            console.log('goodsmarkArr', goodsMarkArr);
-            console.log('lineGoodsArr', lineGoodsArr);
 
             for (var vo in eachGoodsmarkArr) {
                 var g = eachGoodsmarkArr[vo].getPosition();
@@ -516,6 +513,7 @@
                     count++;
                     if (count == 1) {
                         oneGoods = true;// 有1 个
+                        moreGoods.push(eachGoodsmarkArr[vo]);//push 到重叠数组
                     }
                     if (count > 1) {
                         oneGoods = false;// 有多个重叠
@@ -543,14 +541,12 @@
             function _getGoodsIdUrl(mark) {
                 return  _getGoodId(mark.getIcon().url);
             }
-            console.log('moreGoods',moreGoods);
 
             function _getGoodId(url) {
                 var goodsId = url.split('#');
                 return goodsId[1];
             }
 
-            console.log('moreGoods', moreGoods);
 
             setTimeout(function () {
                 callBack();
@@ -567,7 +563,9 @@
                 center: center,
                 radius: 260,
                 fillColor: "#0f0",
-                strokeWeight: 2
+                strokeWeight: 2,
+                visible:false
+
             });
         }
 
